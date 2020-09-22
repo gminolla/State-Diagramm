@@ -23,13 +23,9 @@ namespace state_diagramm_events
 typedef enum  {
 	state_diagramm_invalid_event = SC_INVALID_EVENT_VALUE,
 	InternalSCI_S,
-	InternalSCI_S_0,
 	InternalSCI_k,
-	InternalSCI_k_0,
 	InternalSCI_Extrd,
-	InternalSCI_Extrd_0,
 	InternalSCI_Retr,
-	InternalSCI_Retr_0,
 	InternalSCI_Top,
 	InternalSCI_Bottom,
 	InternalSCI_SZ
@@ -56,45 +52,29 @@ class TypedSctEvent : public SctEvent
 		const T value;
 };
 
-class SctEvent_InternalSCI_S : public SctEvent
+class SctEvent_InternalSCI_S : public TypedSctEvent<sc_boolean>
 {
 	public:
-		SctEvent_InternalSCI_S(State_DiagrammEventName name) : SctEvent(name){};
+		SctEvent_InternalSCI_S(State_DiagrammEventName name, sc_boolean value) :
+			TypedSctEvent(name, value) {};
 };
-class SctEvent_InternalSCI_S_0 : public SctEvent
+class SctEvent_InternalSCI_k : public TypedSctEvent<sc_boolean>
 {
 	public:
-		SctEvent_InternalSCI_S_0(State_DiagrammEventName name) : SctEvent(name){};
+		SctEvent_InternalSCI_k(State_DiagrammEventName name, sc_boolean value) :
+			TypedSctEvent(name, value) {};
 };
-class SctEvent_InternalSCI_k : public SctEvent
+class SctEvent_InternalSCI_Extrd : public TypedSctEvent<sc_boolean>
 {
 	public:
-		SctEvent_InternalSCI_k(State_DiagrammEventName name) : SctEvent(name){};
+		SctEvent_InternalSCI_Extrd(State_DiagrammEventName name, sc_boolean value) :
+			TypedSctEvent(name, value) {};
 };
-class SctEvent_InternalSCI_k_0 : public SctEvent
+class SctEvent_InternalSCI_Retr : public TypedSctEvent<sc_boolean>
 {
 	public:
-		SctEvent_InternalSCI_k_0(State_DiagrammEventName name) : SctEvent(name){};
-};
-class SctEvent_InternalSCI_Extrd : public SctEvent
-{
-	public:
-		SctEvent_InternalSCI_Extrd(State_DiagrammEventName name) : SctEvent(name){};
-};
-class SctEvent_InternalSCI_Extrd_0 : public SctEvent
-{
-	public:
-		SctEvent_InternalSCI_Extrd_0(State_DiagrammEventName name) : SctEvent(name){};
-};
-class SctEvent_InternalSCI_Retr : public SctEvent
-{
-	public:
-		SctEvent_InternalSCI_Retr(State_DiagrammEventName name) : SctEvent(name){};
-};
-class SctEvent_InternalSCI_Retr_0 : public SctEvent
-{
-	public:
-		SctEvent_InternalSCI_Retr_0(State_DiagrammEventName name) : SctEvent(name){};
+		SctEvent_InternalSCI_Retr(State_DiagrammEventName name, sc_boolean value) :
+			TypedSctEvent(name, value) {};
 };
 class SctEvent_InternalSCI_Top : public SctEvent
 {
@@ -210,13 +190,13 @@ class State_Diagramm : public StatemachineInterface
 			public:
 				InternalSCI(State_Diagramm * parent):
 					S_raised(false),
-					S_0_raised(false),
+					S_value(),
 					k_raised(false),
-					k_0_raised(false),
+					k_value(),
 					Extrd_raised(false),
-					Extrd_0_raised(false),
+					Extrd_value(),
 					Retr_raised(false),
-					Retr_0_raised(false),
+					Retr_value(),
 					Top_raised(false),
 					Bottom_raised(false),
 					SZ_raised(false),
@@ -224,59 +204,43 @@ class State_Diagramm : public StatemachineInterface
 				{}
 				
 				/*! Raises the in event 'S' that is defined in the internal scope. */
-				void raise_s();
+				void raise_s(sc_boolean value);
 				
 				/*! Checks if the out event 'S' that is defined in the internal scope has been raised. */
 				sc_boolean isRaised_s() const;
 				
-				
-				/*! Raises the in event 'S_0' that is defined in the internal scope. */
-				void raise_s_0();
-				
-				/*! Checks if the out event 'S_0' that is defined in the internal scope has been raised. */
-				sc_boolean isRaised_s_0() const;
+				/*! Gets the value of the out event 'S' that is defined in the internal scope. */
+				sc_boolean get_s_value() const;
 				
 				
 				/*! Raises the in event 'k' that is defined in the internal scope. */
-				void raise_k();
+				void raise_k(sc_boolean value);
 				
 				/*! Checks if the out event 'k' that is defined in the internal scope has been raised. */
 				sc_boolean isRaised_k() const;
 				
-				
-				/*! Raises the in event 'k_0' that is defined in the internal scope. */
-				void raise_k_0();
-				
-				/*! Checks if the out event 'k_0' that is defined in the internal scope has been raised. */
-				sc_boolean isRaised_k_0() const;
+				/*! Gets the value of the out event 'k' that is defined in the internal scope. */
+				sc_boolean get_k_value() const;
 				
 				
 				/*! Raises the in event 'Extrd' that is defined in the internal scope. */
-				void raise_extrd();
+				void raise_extrd(sc_boolean value);
 				
 				/*! Checks if the out event 'Extrd' that is defined in the internal scope has been raised. */
 				sc_boolean isRaised_extrd() const;
 				
-				
-				/*! Raises the in event 'Extrd_0' that is defined in the internal scope. */
-				void raise_extrd_0();
-				
-				/*! Checks if the out event 'Extrd_0' that is defined in the internal scope has been raised. */
-				sc_boolean isRaised_extrd_0() const;
+				/*! Gets the value of the out event 'Extrd' that is defined in the internal scope. */
+				sc_boolean get_extrd_value() const;
 				
 				
 				/*! Raises the in event 'Retr' that is defined in the internal scope. */
-				void raise_retr();
+				void raise_retr(sc_boolean value);
 				
 				/*! Checks if the out event 'Retr' that is defined in the internal scope has been raised. */
 				sc_boolean isRaised_retr() const;
 				
-				
-				/*! Raises the in event 'Retr_0' that is defined in the internal scope. */
-				void raise_retr_0();
-				
-				/*! Checks if the out event 'Retr_0' that is defined in the internal scope has been raised. */
-				sc_boolean isRaised_retr_0() const;
+				/*! Gets the value of the out event 'Retr' that is defined in the internal scope. */
+				sc_boolean get_retr_value() const;
 				
 				
 				/*! Raises the in event 'Top' that is defined in the internal scope. */
@@ -304,29 +268,21 @@ class State_Diagramm : public StatemachineInterface
 			private:
 				friend class State_Diagramm;
 				/*! Raises the in event 'S' that is defined in the internal scope. */
-				void internal_raise_s();
+				void internal_raise_s(sc_boolean value);
 				sc_boolean S_raised;
-				/*! Raises the in event 'S_0' that is defined in the internal scope. */
-				void internal_raise_s_0();
-				sc_boolean S_0_raised;
+				sc_boolean S_value;
 				/*! Raises the in event 'k' that is defined in the internal scope. */
-				void internal_raise_k();
+				void internal_raise_k(sc_boolean value);
 				sc_boolean k_raised;
-				/*! Raises the in event 'k_0' that is defined in the internal scope. */
-				void internal_raise_k_0();
-				sc_boolean k_0_raised;
+				sc_boolean k_value;
 				/*! Raises the in event 'Extrd' that is defined in the internal scope. */
-				void internal_raise_extrd();
+				void internal_raise_extrd(sc_boolean value);
 				sc_boolean Extrd_raised;
-				/*! Raises the in event 'Extrd_0' that is defined in the internal scope. */
-				void internal_raise_extrd_0();
-				sc_boolean Extrd_0_raised;
+				sc_boolean Extrd_value;
 				/*! Raises the in event 'Retr' that is defined in the internal scope. */
-				void internal_raise_retr();
+				void internal_raise_retr(sc_boolean value);
 				sc_boolean Retr_raised;
-				/*! Raises the in event 'Retr_0' that is defined in the internal scope. */
-				void internal_raise_retr_0();
-				sc_boolean Retr_0_raised;
+				sc_boolean Retr_value;
 				/*! Raises the in event 'Top' that is defined in the internal scope. */
 				void internal_raise_top();
 				sc_boolean Top_raised;

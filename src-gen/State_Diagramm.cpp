@@ -44,13 +44,9 @@ void State_Diagramm::dispatch_event(SctEvent * event)
 	switch(event->name)
 	{
 		case InternalSCI_S:
-		case InternalSCI_S_0:
 		case InternalSCI_k:
-		case InternalSCI_k_0:
 		case InternalSCI_Extrd:
-		case InternalSCI_Extrd_0:
 		case InternalSCI_Retr:
-		case InternalSCI_Retr_0:
 		case InternalSCI_Top:
 		case InternalSCI_Bottom:
 		case InternalSCI_SZ:
@@ -77,42 +73,34 @@ void State_Diagramm::InternalSCI::dispatch_event(SctEvent * event)
 	{
 		case InternalSCI_S:
 		{
-			internal_raise_s();
-			break;
-		}
-		case InternalSCI_S_0:
-		{
-			internal_raise_s_0();
+			SctEvent_InternalSCI_S * e = static_cast<SctEvent_InternalSCI_S*>(event);
+			if(e != 0) {
+				internal_raise_s(e->value);
+			}
 			break;
 		}
 		case InternalSCI_k:
 		{
-			internal_raise_k();
-			break;
-		}
-		case InternalSCI_k_0:
-		{
-			internal_raise_k_0();
+			SctEvent_InternalSCI_k * e = static_cast<SctEvent_InternalSCI_k*>(event);
+			if(e != 0) {
+				internal_raise_k(e->value);
+			}
 			break;
 		}
 		case InternalSCI_Extrd:
 		{
-			internal_raise_extrd();
-			break;
-		}
-		case InternalSCI_Extrd_0:
-		{
-			internal_raise_extrd_0();
+			SctEvent_InternalSCI_Extrd * e = static_cast<SctEvent_InternalSCI_Extrd*>(event);
+			if(e != 0) {
+				internal_raise_extrd(e->value);
+			}
 			break;
 		}
 		case InternalSCI_Retr:
 		{
-			internal_raise_retr();
-			break;
-		}
-		case InternalSCI_Retr_0:
-		{
-			internal_raise_retr_0();
+			SctEvent_InternalSCI_Retr * e = static_cast<SctEvent_InternalSCI_Retr*>(event);
+			if(e != 0) {
+				internal_raise_retr(e->value);
+			}
 			break;
 		}
 		case InternalSCI_Top:
@@ -240,13 +228,9 @@ void State_Diagramm::runCycle()
 void State_Diagramm::clearInEvents()
 {
 	ifaceInternalSCI.S_raised = false; 
-	ifaceInternalSCI.S_0_raised = false; 
 	ifaceInternalSCI.k_raised = false; 
-	ifaceInternalSCI.k_0_raised = false; 
 	ifaceInternalSCI.Extrd_raised = false; 
-	ifaceInternalSCI.Extrd_0_raised = false; 
 	ifaceInternalSCI.Retr_raised = false; 
-	ifaceInternalSCI.Retr_0_raised = false; 
 	ifaceInternalSCI.Top_raised = false; 
 	ifaceInternalSCI.Bottom_raised = false; 
 	ifaceInternalSCI.SZ_raised = false; 
@@ -291,116 +275,80 @@ State_Diagramm::DefaultSCI* State_Diagramm::getDefaultSCI()
 	return &iface;
 }
 /* Functions for event S in interface InternalSCI */
-void State_Diagramm::InternalSCI::raise_s()
+void State_Diagramm::InternalSCI::raise_s(sc_boolean value)
 {
-	parent->internalEventQueue.push_back(new SctEvent_InternalSCI_S(InternalSCI_S));
+	parent->internalEventQueue.push_back(new SctEvent_InternalSCI_S(InternalSCI_S, value));
 	parent->runCycle();
 }
-void State_Diagramm::InternalSCI::internal_raise_s()
+void State_Diagramm::InternalSCI::internal_raise_s(sc_boolean value)
 {
+	S_value = value;
 	S_raised = true;
 }
 sc_boolean State_Diagramm::InternalSCI::isRaised_s() const
 {
 	return S_raised;
 }
-/* Functions for event S_0 in interface InternalSCI */
-void State_Diagramm::InternalSCI::raise_s_0()
+sc_boolean State_Diagramm::InternalSCI::get_s_value() const
 {
-	parent->internalEventQueue.push_back(new SctEvent_InternalSCI_S_0(InternalSCI_S_0));
-	parent->runCycle();
-}
-void State_Diagramm::InternalSCI::internal_raise_s_0()
-{
-	S_0_raised = true;
-}
-sc_boolean State_Diagramm::InternalSCI::isRaised_s_0() const
-{
-	return S_0_raised;
+	return S_value;
 }
 /* Functions for event k in interface InternalSCI */
-void State_Diagramm::InternalSCI::raise_k()
+void State_Diagramm::InternalSCI::raise_k(sc_boolean value)
 {
-	parent->internalEventQueue.push_back(new SctEvent_InternalSCI_k(InternalSCI_k));
+	parent->internalEventQueue.push_back(new SctEvent_InternalSCI_k(InternalSCI_k, value));
 	parent->runCycle();
 }
-void State_Diagramm::InternalSCI::internal_raise_k()
+void State_Diagramm::InternalSCI::internal_raise_k(sc_boolean value)
 {
+	k_value = value;
 	k_raised = true;
 }
 sc_boolean State_Diagramm::InternalSCI::isRaised_k() const
 {
 	return k_raised;
 }
-/* Functions for event k_0 in interface InternalSCI */
-void State_Diagramm::InternalSCI::raise_k_0()
+sc_boolean State_Diagramm::InternalSCI::get_k_value() const
 {
-	parent->internalEventQueue.push_back(new SctEvent_InternalSCI_k_0(InternalSCI_k_0));
-	parent->runCycle();
-}
-void State_Diagramm::InternalSCI::internal_raise_k_0()
-{
-	k_0_raised = true;
-}
-sc_boolean State_Diagramm::InternalSCI::isRaised_k_0() const
-{
-	return k_0_raised;
+	return k_value;
 }
 /* Functions for event Extrd in interface InternalSCI */
-void State_Diagramm::InternalSCI::raise_extrd()
+void State_Diagramm::InternalSCI::raise_extrd(sc_boolean value)
 {
-	parent->internalEventQueue.push_back(new SctEvent_InternalSCI_Extrd(InternalSCI_Extrd));
+	parent->internalEventQueue.push_back(new SctEvent_InternalSCI_Extrd(InternalSCI_Extrd, value));
 	parent->runCycle();
 }
-void State_Diagramm::InternalSCI::internal_raise_extrd()
+void State_Diagramm::InternalSCI::internal_raise_extrd(sc_boolean value)
 {
+	Extrd_value = value;
 	Extrd_raised = true;
 }
 sc_boolean State_Diagramm::InternalSCI::isRaised_extrd() const
 {
 	return Extrd_raised;
 }
-/* Functions for event Extrd_0 in interface InternalSCI */
-void State_Diagramm::InternalSCI::raise_extrd_0()
+sc_boolean State_Diagramm::InternalSCI::get_extrd_value() const
 {
-	parent->internalEventQueue.push_back(new SctEvent_InternalSCI_Extrd_0(InternalSCI_Extrd_0));
-	parent->runCycle();
-}
-void State_Diagramm::InternalSCI::internal_raise_extrd_0()
-{
-	Extrd_0_raised = true;
-}
-sc_boolean State_Diagramm::InternalSCI::isRaised_extrd_0() const
-{
-	return Extrd_0_raised;
+	return Extrd_value;
 }
 /* Functions for event Retr in interface InternalSCI */
-void State_Diagramm::InternalSCI::raise_retr()
+void State_Diagramm::InternalSCI::raise_retr(sc_boolean value)
 {
-	parent->internalEventQueue.push_back(new SctEvent_InternalSCI_Retr(InternalSCI_Retr));
+	parent->internalEventQueue.push_back(new SctEvent_InternalSCI_Retr(InternalSCI_Retr, value));
 	parent->runCycle();
 }
-void State_Diagramm::InternalSCI::internal_raise_retr()
+void State_Diagramm::InternalSCI::internal_raise_retr(sc_boolean value)
 {
+	Retr_value = value;
 	Retr_raised = true;
 }
 sc_boolean State_Diagramm::InternalSCI::isRaised_retr() const
 {
 	return Retr_raised;
 }
-/* Functions for event Retr_0 in interface InternalSCI */
-void State_Diagramm::InternalSCI::raise_retr_0()
+sc_boolean State_Diagramm::InternalSCI::get_retr_value() const
 {
-	parent->internalEventQueue.push_back(new SctEvent_InternalSCI_Retr_0(InternalSCI_Retr_0));
-	parent->runCycle();
-}
-void State_Diagramm::InternalSCI::internal_raise_retr_0()
-{
-	Retr_0_raised = true;
-}
-sc_boolean State_Diagramm::InternalSCI::isRaised_retr_0() const
-{
-	return Retr_0_raised;
+	return Retr_value;
 }
 /* Functions for event Top in interface InternalSCI */
 void State_Diagramm::InternalSCI::raise_top()
@@ -449,7 +397,7 @@ sc_boolean State_Diagramm::InternalSCI::isRaised_sZ() const
 
 sc_boolean State_Diagramm::check_main_region__choice_0_tr0_tr0()
 {
-	return ifaceInternalSCI.k_raised;
+	return ((ifaceInternalSCI.k_raised)) && ((true));
 }
 
 void State_Diagramm::effect_main_region__choice_0_tr0()
@@ -657,14 +605,14 @@ sc_boolean State_Diagramm::main_region_Wait_react(const sc_boolean try_transitio
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (ifaceInternalSCI.S_raised)
+		if (((ifaceInternalSCI.S_raised)) && ((true)))
 		{ 
 			exseq_main_region_Wait();
 			enseq_main_region_Init_default();
 			react();
 		}  else
 		{
-			if (ifaceInternalSCI.S_0_raised)
+			if (((ifaceInternalSCI.S_raised)) && ((false)))
 			{ 
 				exseq_main_region_Wait();
 				enseq_main_region_Wait_default();
@@ -687,14 +635,14 @@ sc_boolean State_Diagramm::main_region_Init_react(const sc_boolean try_transitio
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (ifaceInternalSCI.S_0_raised)
+		if (((ifaceInternalSCI.S_raised)) && ((false)))
 		{ 
 			exseq_main_region_Init();
 			enseq_main_region_Wait_default();
 			react();
 		}  else
 		{
-			if (ifaceInternalSCI.k_raised)
+			if (((ifaceInternalSCI.k_raised)) && ((true)))
 			{ 
 				exseq_main_region_Init();
 				enseq_main_region_Ready_default();
@@ -717,42 +665,34 @@ sc_boolean State_Diagramm::main_region_Ready_react(const sc_boolean try_transiti
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (ifaceInternalSCI.S_0_raised)
+		if (((ifaceInternalSCI.S_raised)) && ((false)))
 		{ 
 			exseq_main_region_Ready();
 			enseq_main_region_Wait_default();
 			react();
 		}  else
 		{
-			if (ifaceInternalSCI.k_0_raised)
+			if (((ifaceInternalSCI.Retr_raised)) && ((true)))
 			{ 
 				exseq_main_region_Ready();
-				enseq_main_region_Init_default();
+				enseq_main_region_Retract_default();
 				react();
 			}  else
 			{
-				if (ifaceInternalSCI.Retr_raised)
+				if ((((ifaceInternalSCI.SZ_raised) || (ifaceInternalSCI.k_raised))) && ((false)))
 				{ 
 					exseq_main_region_Ready();
-					enseq_main_region_Retract_default();
+					enseq_main_region_Init_default();
 					react();
 				}  else
 				{
-					if (ifaceInternalSCI.SZ_raised)
+					if (((ifaceInternalSCI.Extrd_raised)) && ((true)))
 					{ 
 						exseq_main_region_Ready();
-						enseq_main_region_Init_default();
-						react();
+						react_main_region__choice_0();
 					}  else
 					{
-						if (ifaceInternalSCI.Extrd_raised)
-						{ 
-							exseq_main_region_Ready();
-							react_main_region__choice_0();
-						}  else
-						{
-							did_transition = false;
-						}
+						did_transition = false;
 					}
 				}
 			}
@@ -770,7 +710,7 @@ sc_boolean State_Diagramm::main_region_Retract_react(const sc_boolean try_transi
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (ifaceInternalSCI.S_0_raised)
+		if (((ifaceInternalSCI.S_raised)) && ((false)))
 		{ 
 			exseq_main_region_Retract();
 			enseq_main_region_Wait_default();
@@ -784,14 +724,14 @@ sc_boolean State_Diagramm::main_region_Retract_react(const sc_boolean try_transi
 				react();
 			}  else
 			{
-				if (ifaceInternalSCI.Retr_0_raised)
+				if (((ifaceInternalSCI.Retr_raised)) && ((false)))
 				{ 
 					exseq_main_region_Retract();
 					enseq_main_region_Ready_default();
 					react();
 				}  else
 				{
-					if (ifaceInternalSCI.Retr_raised)
+					if (((ifaceInternalSCI.Retr_raised)) && ((true)))
 					{ 
 						exseq_main_region_Retract();
 						enseq_main_region_Retract_default();
@@ -824,29 +764,21 @@ sc_boolean State_Diagramm::main_region_End_react(const sc_boolean try_transition
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (ifaceInternalSCI.S_0_raised)
+		if ((((ifaceInternalSCI.Top_raised) || (ifaceInternalSCI.S_raised))) && ((false)))
 		{ 
 			exseq_main_region_End();
 			enseq_main_region_Wait_default();
 			react();
 		}  else
 		{
-			if (ifaceInternalSCI.Top_raised)
+			if (ifaceInternalSCI.SZ_raised)
 			{ 
 				exseq_main_region_End();
-				enseq_main_region_Wait_default();
+				enseq_main_region_Init_default();
 				react();
 			}  else
 			{
-				if (ifaceInternalSCI.SZ_raised)
-				{ 
-					exseq_main_region_End();
-					enseq_main_region_Init_default();
-					react();
-				}  else
-				{
-					did_transition = false;
-				}
+				did_transition = false;
 			}
 		}
 	} 
@@ -862,21 +794,21 @@ sc_boolean State_Diagramm::main_region_Extrude_react(const sc_boolean try_transi
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (ifaceInternalSCI.S_0_raised)
+		if (((ifaceInternalSCI.S_raised)) && ((false)))
 		{ 
 			exseq_main_region_Extrude();
 			enseq_main_region_Wait_default();
 			react();
 		}  else
 		{
-			if (ifaceInternalSCI.Extrd_0_raised)
+			if (((ifaceInternalSCI.Extrd_raised)) && ((false)))
 			{ 
 				exseq_main_region_Extrude();
 				enseq_main_region_Ready_default();
 				react();
 			}  else
 			{
-				if (ifaceInternalSCI.Extrd_raised)
+				if (((ifaceInternalSCI.Extrd_raised)) && ((true)))
 				{ 
 					exseq_main_region_Extrude();
 					enseq_main_region_Extrude_default();
@@ -897,7 +829,7 @@ sc_boolean State_Diagramm::main_region_Extrude_react(const sc_boolean try_transi
 							react();
 						}  else
 						{
-							if (ifaceInternalSCI.k_raised)
+							if (((ifaceInternalSCI.k_raised)) && ((true)))
 							{ 
 								exseq_main_region_Extrude();
 								enseq_main_region_Measurement_default();
@@ -924,21 +856,21 @@ sc_boolean State_Diagramm::main_region_Measurement_react(const sc_boolean try_tr
 	sc_boolean did_transition = try_transition;
 	if (try_transition)
 	{ 
-		if (ifaceInternalSCI.k_0_raised)
+		if (((ifaceInternalSCI.k_raised)) && ((false)))
 		{ 
 			exseq_main_region_Measurement();
 			enseq_main_region_Extrude_default();
 			react();
 		}  else
 		{
-			if (ifaceInternalSCI.Extrd_0_raised)
+			if (((ifaceInternalSCI.Extrd_raised)) && ((false)))
 			{ 
 				exseq_main_region_Measurement();
 				enseq_main_region_Ready_default();
 				react();
 			}  else
 			{
-				if (ifaceInternalSCI.S_0_raised)
+				if (((ifaceInternalSCI.S_raised)) && ((false)))
 				{ 
 					exseq_main_region_Measurement();
 					enseq_main_region_Wait_default();
